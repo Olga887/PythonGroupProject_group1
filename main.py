@@ -98,6 +98,38 @@ def make_move(matrix, move_row, move_column, ship_coordinates):
     result.append(matrix)
     return result
 
+# Обновление карты противника по координате
+def enemy_card(matrix_1, matrix_2, number_y, number_x):
+    match matrix_2[number_y][number_x]:
+        case '-':
+            matrix_1[number_y][number_x] = '-'
+        case 'X':
+            matrix_1[number_y][number_x] = 'X'
+        case 'R':
+            matrix_1[number_y][number_x] = 'R'
+    for row in matrix_1:
+        print(row)
+    return matrix_1
+
+# Горизонтальное размещение корабля
+def filling_ship_hor(matrix, number_y_first, number_x_first, number_x_second):
+    if number_x_first < number_x_second:
+        for number_x in range(number_x_first, number_x_second + 1):
+            matrix[number_y_first][number_x] = 1
+    else:
+        for number_x in range(number_x_second, number_x_first + 1):
+            matrix[number_y_first][number_x] = 1
+    return matrix
+
+# Вертикальное размещение корабля
+def filling_ship_ver(matrix, number_y_first, number_y_second, number_x_first):
+    if number_y_first < number_y_second:
+        for number_y in range(number_y_first, number_y_second + 1):
+            matrix[number_y][number_x_first] = 1
+    else:
+        for number_y in range(number_y_second, number_y_first + 1):
+            matrix[number_y][number_x_first] = 1
+    return matrix
 
 player1_matrix = create_matrix()
 player2_matrix = create_matrix()
