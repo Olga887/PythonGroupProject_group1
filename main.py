@@ -40,23 +40,24 @@ def parse_coordinates(coord):
 
 
 
-def check_ship_status(matrix, ship_coords):
-    not_hit = []
-    hit = []
+def place_ship(matrix, coords):
+    ship_cells = []
+    for coord in coords:
+        row = ord(coord[0].upper()) - ord('A')
+        col = int(coord[1:])
+        if not (0 <= row < 10 and 0 <= col < 10):
+            return f"Координата вне поля: {coord}"
+        if matrix[row][col] != '-':
+            return f"Клетка уже занята: {coord}"
+        ship_cells.append((row, col))
 
-    for row, col in ship_coords:
-        cell = matrix[row][col]
-        if cell == '1':
-            not_hit.append((row, col))
-        elif cell == 'X':
-            hit.append((row, col))
+    # Проверка на прямую линию
+    rows = [r for r, _ in ship_cells]
+    cols = [c for _, c in ship_cells]
+    if not (len(set(rows)) == 1 or len(set(cols)) == 1):
+        return "Корабль должен быть размещён по прямой линии"
 
-    if not_hit and hit:
-        return "Ранен", hit + not_hit
-    elif not not_hit and hit:
-        return "Убит", hit
-    elif not_hit and not hit:
-        return "Целый", not_hit
-    else:
-        return "Не найден", []
-
+    # Размещение
+    for row, col in ship_cells:
+        matrix[row][col] = '1'
+    return "Корабль размещён", ship_cells
