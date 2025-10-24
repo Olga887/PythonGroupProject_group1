@@ -3,9 +3,12 @@ def create_matrix():
 
 def print_matrix_with_coords(matrix):
     print("   " + " ".join(str(i) for i in range(10)))
-    for i, row in enumerate(matrix):
+    i = 0
+    for row in matrix:
         letter = chr(ord('A') + i)
         print(f"{letter}  " + " ".join(row))
+        i += 1
+
 
 player1_matrix = create_matrix()
 player2_matrix = create_matrix()
