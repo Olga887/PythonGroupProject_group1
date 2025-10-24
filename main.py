@@ -55,3 +55,24 @@ def place_ship(matrix, coords):
     for row, col in ship_cells:
         matrix[row][col] = '1'
     return "Корабль размещён", ship_cells
+
+
+def check_ship_status(matrix, ship_coords):
+    intact = []
+    hit = []
+
+    for row, col in ship_coords:
+        cell = matrix[row][col]
+        if cell == '1':
+            intact.append((row, col))
+        elif cell == 'X':
+            hit.append((row, col))
+
+    if intact and hit:
+        return "Ранен", hit + intact
+    elif not intact and hit:
+        return "Убит", hit
+    elif intact and not hit:
+        return "Целый", intact
+    else:
+        return "Не найден", []
