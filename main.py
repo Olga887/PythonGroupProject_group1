@@ -32,3 +32,4 @@ def parse_coordinates(coord):
 
     if not (0 <= row_index < 10 and 0 <= col_index < 10):
         raise ValueError("Out of acceptable range (A–J, 0–9)")
+    return row_index, col_index
