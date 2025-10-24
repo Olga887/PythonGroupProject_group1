@@ -23,20 +23,21 @@ print_matrix_with_coords(player2_matrix)
 
 def parse_coordinates(coord):
     if len(coord) < 2 or len(coord) > 3:
-        raise ValueError("Wrong format. Example: B5 or J0")
+        raise ValueError("Неверный формат. Пример: B5 или J0")
 
     row_letter = coord[0].upper()
     col_number = coord[1:]
 
     if not row_letter.isalpha() or not col_number.isdigit():
-        raise ValueError("Coord should have a letter and nuber")
+        raise ValueError("Координата должна содержать букву и цифру")
 
     row_index = ord(row_letter) - ord('A')
     col_index = int(col_number)
 
     if not (0 <= row_index < 10 and 0 <= col_index < 10):
-        raise ValueError("Out of acceptable range (A–J, 0–9)")
+        raise ValueError("Координата вне допустимого диапазона (A–J, 0–9)")
     return row_index, col_index
+
 
 
 
@@ -57,22 +58,52 @@ def place_ship(matrix, coords):
     return "Корабль размещён", ship_cells
 
 
-def check_ship_status(matrix, ship_coords):
+def check_if_ship_killed(move_row, move_column, matrix, ship_coordinates):
     intact = []
     hit = []
 
-    for row, col in ship_coords:
+    for row, col in ship_coordinates:
         cell = matrix[row][col]
-        if cell == '1':
+        if cell == '1' or cell == 'H':
             intact.append((row, col))
         elif cell == 'X':
             hit.append((row, col))
 
-    if intact and hit:
-        return "Ранен", hit + intact
-    elif not intact and hit:
-        return "Убит", hit
-    elif intact and not hit:
-        return "Целый", intact
+    if (move_row, move_column) in intact:
+        intact.remove((move_row, move_column))
+        hit.append((move_row, move_column))
+
+    if intact:
+        return False
     else:
-        return "Не найден", []
+        return True
+
+
+
+
+def make_move(matrix, move_row, move_column, ship_coordinates):
+    result = []
+    #hit = matrix[move_row][move_column]
+    #print(hit)
+    for i in range(len(matrix)):
+        for j in range(len(matrix[i])):
+            if i == move_row and j == move_column:
+                if matrix[i][j] == '-':
+                    matrix[i][j] = 'O'
+                    result.append(True)
+                elif matrix[i][j] == '1':
+                    is_killed = check_if_ship_killed(move_row, move_column, matrix, ship_coordinates)
+                    if is_killed:
+                        matrix[i][j] = 'X'
+                        result.append(False)
+                    else:
+                        matrix[i][j] = 'H'
+                        result.append(False)
+                elif matrix[i][j] == 'H':
+                    matrix[i][j] = 'H'
+                    result.append(True)
+                elif matrix[i][j] == 'X':
+                    matrix[i][j] = 'X'
+                    result.append(True)
+    result.append(matrix)
+    return result
