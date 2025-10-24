@@ -11,16 +11,6 @@ def print_matrix_with_coords(matrix):
         i += 1
 
 
-player1_matrix = create_matrix()
-player2_matrix = create_matrix()
-
-print("Initial matrix Player 1:")
-print_matrix_with_coords(player1_matrix)
-
-print("\nInitial matrix player 2:")
-print_matrix_with_coords(player2_matrix)
-
-
 def parse_coordinates(coord):
     if len(coord) < 2 or len(coord) > 3:
         raise ValueError("Неверный формат. Пример: B5 или J0")
@@ -107,3 +97,13 @@ def make_move(matrix, move_row, move_column, ship_coordinates):
                     result.append(True)
     result.append(matrix)
     return result
+
+
+player1_matrix = create_matrix()
+player2_matrix = create_matrix()
+
+print("Initial matrix Player 1:")
+print_matrix_with_coords(player1_matrix)
+
+print("\nInitial matrix player 2:")
+print_matrix_with_coords(player2_matrix)
