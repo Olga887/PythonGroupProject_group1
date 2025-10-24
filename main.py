@@ -37,3 +37,26 @@ def parse_coordinates(coord):
     if not (0 <= row_index < 10 and 0 <= col_index < 10):
         raise ValueError("Out of acceptable range (A–J, 0–9)")
     return row_index, col_index
+
+
+
+def check_ship_status(matrix, ship_coords):
+    not_hit = []
+    hit = []
+
+    for row, col in ship_coords:
+        cell = matrix[row][col]
+        if cell == '1':
+            not_hit.append((row, col))
+        elif cell == 'X':
+            hit.append((row, col))
+
+    if not_hit and hit:
+        return "Ранен", hit + not_hit
+    elif not not_hit and hit:
+        return "Убит", hit
+    elif not_hit and not hit:
+        return "Целый", not_hit
+    else:
+        return "Не найден", []
+
