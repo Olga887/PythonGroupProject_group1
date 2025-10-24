@@ -51,12 +51,6 @@ def place_ship(matrix, coords):
             return f"Клетка уже занята: {coord}"
         ship_cells.append((row, col))
 
-    # Проверка на прямую линию
-    rows = [r for r, _ in ship_cells]
-    cols = [c for _, c in ship_cells]
-    if not (len(set(rows)) == 1 or len(set(cols)) == 1):
-        return "Корабль должен быть размещён по прямой линии"
-
     # Размещение
     for row, col in ship_cells:
         matrix[row][col] = '1'
