@@ -1,3 +1,3 @@
 print("refactor commit")
 print("Hello World")
-print("Hello from Dmirii")
+print("Hello from Dmitrii")
