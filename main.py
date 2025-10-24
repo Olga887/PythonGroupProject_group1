@@ -5,7 +5,8 @@ def print_matrix_with_coords(matrix):
     print("   " + " ".join(str(i) for i in range(10)))
     i = 0
     for row in matrix:
-        letter = chr(ord('A') + i)
+        letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
+        letter = letters[i]
         print(f"{letter}  " + " ".join(row))
         i += 1
 
