@@ -30,24 +30,6 @@ def parse_coordinates(coord):
 
 
 
-
-def place_ship(matrix, coords):
-    ship_cells = []
-    for coord in coords:
-        row = ord(coord[0].upper()) - ord('A')
-        col = int(coord[1:])
-        if not (0 <= row < 10 and 0 <= col < 10):
-            return f"Координата вне поля: {coord}"
-        if matrix[row][col] != '-':
-            return f"Клетка уже занята: {coord}"
-        ship_cells.append((row, col))
-
-    # Размещение
-    for row, col in ship_cells:
-        matrix[row][col] = '1'
-    return "Корабль размещён", ship_cells
-
-
 def check_if_ship_killed(move_row, move_column, matrix, ship_coordinates):
     intact = []
     hit = []
