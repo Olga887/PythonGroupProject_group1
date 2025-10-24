@@ -16,6 +16,13 @@ def check_if_ship_killed(move_row, move_column, matrix, ship_coordinates):
     return True
 
 
+def get_hit_coordinates():
+    coordinates = input("Введите координаты выстрела в диапазоне от A0 до J9: ")
+    while len(coordinates) != 2 or not ('A' <= coordinates[0] <= 'J') or int (coordinates[1]) not in range(0,10):
+        coordinates = input("Введенные данные не соответствуют требованиям. Введите координаты выстрела в диапазоне от A0 до J9: ")
+    return coordinates
+
+
 def make_move(matrix, move_row, move_column, ship_coordinates):
     result = []
     #hit = matrix[move_row][move_column]
@@ -40,9 +47,15 @@ def make_move(matrix, move_row, move_column, ship_coordinates):
                 elif matrix[i][j] == 'X':
                     matrix[i][j] = 'X'
                     result.append(True)
+                elif matrix[i][j] == 'O':
+                    matrix[i][j] = 'O'
+                    result.append(True)
     result.append(matrix)
     return result
 
+
+#coordinates = get_hit_coordinates()
+#print(coordinates)
 
 matrix = get_random_matrix()
 print_matrix(matrix)
