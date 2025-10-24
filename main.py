@@ -1,2 +1,2 @@
 print("refactor commit")
-print("Hello world")
+print("Hello World")
