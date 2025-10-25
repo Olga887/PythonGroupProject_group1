@@ -106,7 +106,7 @@ def parse_coordinates(coord):
     col_index = ord(row_letter) - ord('A')
     row_index = int(col_number)
 
-    print(col_index, row_index)
+    #print(col_index, row_index)
 
     return row_index, col_index
 
@@ -131,21 +131,23 @@ def check_if_ship_killed(move_row, move_column, matrix, ship_coordinates):
     if intact:
         print(False)
         return False
-    else:
+    elif hit:
         print(True)
         return True
 
 # Обновление карты противника по координате
 def enemy_card(matrix_enemy, matrix, number_y, number_x):
-    match matrix[number_y][number_x]:
+    match matrix[number_x][number_y]:
         case '-':
-            matrix_enemy[number_y][number_x] = '-'
+            matrix_enemy[number_x][number_y] = '-'
         case 'X':
-            matrix_enemy[number_y][number_x] = 'X'
-        case 'R':
-            matrix_enemy[number_y][number_x] = 'R'
-    for row in matrix_enemy:
-        print(row)
+            matrix_enemy[number_x][number_y] = 'X'
+        case 'H':
+            matrix_enemy[number_x][number_y] = 'H'
+        case 'O':
+            matrix_enemy[number_x][number_y] = 'O'
+    #for row in matrix_enemy:
+    #    print(row)
     return matrix_enemy
 
 
@@ -320,8 +322,8 @@ while is_game_over == False:
         print("\nИгровое поле вашего соперника: ")
         print_matrix_with_coords(player_one_enemy_matrix)
         counter = 0
-        for row_matrix in player_two_matrix:
-            for cell_matrix in row_matrix:
+        for row_matrix in range(len(player_two_matrix)):
+            for cell_matrix in range(len(player_two_matrix[row_matrix])):
                 if player_two_matrix[row_matrix][cell_matrix] == '1':
                     counter += 1
         if counter == 0:
@@ -349,9 +351,9 @@ while is_game_over == False:
         print("\nИгровое поле вашего соперника: ")
         print_matrix_with_coords(player_two_enemy_matrix)
         counter = 0
-        for row_matrix in player_two_matrix:
-            for cell_matrix in row_matrix:
-                if player_two_matrix[row_matrix][cell_matrix] == '1':
+        for row_matrix in range(len(player_one_matrix)):
+            for cell_matrix in range(len(player_one_matrix[row_matrix])):
+                if player_one_matrix[row_matrix][cell_matrix] == '1':
                     counter += 1
         if counter == 0:
             is_game_over = True
