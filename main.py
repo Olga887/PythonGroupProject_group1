@@ -6,9 +6,9 @@ def get_hit_coordinates():
 
 
 def get_ship_coordinates(word):
-    coordinates = input(f"Введите координаты {word} корабля в диапазоне от A0 до J9: ")
+    coordinates = input(f"Введите координаты {word} в диапазоне от A0 до J9: ")
     while len(coordinates) != 2 or not ('A' <= coordinates[0] <= 'J') or not coordinates[1].isdigit() or int(coordinates[1]) not in range(0,10):
-        coordinates = input(f"Введенные данные не соответствуют требованиям. Введите координаты {word} корабля в диапазоне от A0 до J9: ")
+        coordinates = input(f"Введенные данные не соответствуют требованиям. Введите координаты {word} в диапазоне от A0 до J9: ")
     return coordinates
 
 
@@ -51,9 +51,9 @@ def create_ships(matrix):
             if not keys == 1:
                 value_correct.append(False)
                 while not value_correct[0]:
-                    start_coordinate = get_ship_coordinates(f'начала {keys}-клеточного корабля №{j}')
+                    start_coordinate = get_ship_coordinates(f'начала {keys}-клеточного корабля №{j + 1}')
                     start_coordinate_col, start_coordinate_row = parse_coordinates(start_coordinate)
-                    finish_coordinate = get_ship_coordinates(f'конца {keys}-клеточного корабля №{j}')
+                    finish_coordinate = get_ship_coordinates(f'конца {keys}-клеточного корабля №{j + 1}')
                     finish_coordinate_col, finish_coordinate_row = parse_coordinates(finish_coordinate)
                     if abs(start_coordinate_row - finish_coordinate_row) == keys - 1 or abs(start_coordinate_col - finish_coordinate_col) == keys - 1:
                         value_correct[0] = True
@@ -65,7 +65,7 @@ def create_ships(matrix):
             else:
                 value_correct.append(False)
                 while not value_correct[0]:
-                    start_coordinate = get_ship_coordinates(f'начала и конца {keys}-клеточного корабля №{j}')
+                    start_coordinate = get_ship_coordinates(f'начала и конца {keys}-клеточного корабля №{j + 1}')
                     start_coordinate_col, start_coordinate_row = parse_coordinates(start_coordinate)
                     value_correct[0], matrix, ships_coord_item = cells_ship(matrix, start_coordinate_row, start_coordinate_col,
                                                                             start_coordinate_row, start_coordinate_col)
@@ -154,7 +154,6 @@ def filling_ship_hor(matrix, number_y_first, number_x_first, number_x_second, co
 
 
 def filling_ship_ver(matrix, number_y_first, number_y_second, number_x_first, coord):
-    print('hjhgjhjgfhf')
     if number_y_first <= number_y_second:
         for number_y in range(number_y_first, number_y_second + 1):
             matrix[number_y][number_x_first] = '1'
@@ -166,43 +165,6 @@ def filling_ship_ver(matrix, number_y_first, number_y_second, number_x_first, co
             coord_one_cell = [number_y, number_x_first]
             coord.append(coord_one_cell)
     return matrix
-
-
-def add_ship(number_of_decks=int):
-    strr = 'abcdefghij'
-    k=True
-    while k:
-        our_str = input('Введите начальные координаты двойного корабля в формате a1: ')
-        our_str_end = input('Введите конечные координаты в формате a1: ')
-        strr = 'abcdefghij'
-        if our_str==our_str_end:
-            if our_str[0].lower() in strr and len(our_str) == 2 and our_str[1].isdigit():
-                k = False
-            print('Корабль принят')
-            return parse_coordinates(our_str),parse_coordinates(our_str)
-        if our_str_end[0] == our_str[0]:
-            if (our_str[0].lower() in strr and len(our_str) == 2 and our_str[1].isdigit() and our_str_end[
-                0].lower() in strr and len(our_str_end) == 2 and our_str_end[1].isdigit()) and our_str_end[0] == \
-                    our_str[0]:
-                start = int(our_str_end[1])
-                end = int(our_str[1])
-                if start - end == number_of_decks - 1 or end - start == number_of_decks - 1:
-                    k = False
-                    print('Корабль принят')
-                    return parse_coordinates(our_str), parse_coordinates(our_str_end)
-            else:
-                print('введите верные значения')
-        if (our_str[0].lower() in strr and len(our_str) == 2 and our_str[1].isdigit() and our_str_end[0].lower() in strr and len(our_str_end) == 2 and our_str_end[1].isdigit()):
-            index_start = strr.index(our_str[0].lower())
-            index_end = strr.index(our_str_end[0].lower())
-            if index_start - index_end == number_of_decks-1 or index_end - index_start == number_of_decks-1:
-                k = False
-        else:
-            print('введите верные значения')
-    print('Корабль принят')
-    return parse_coordinates(our_str),parse_coordinates(our_str_end)
-
-
 
 def cells_ship(matrix, number_y_first, number_x_first, number_y_second, number_x_second):
     is_correct_coord = True
