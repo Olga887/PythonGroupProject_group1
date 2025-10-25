@@ -322,7 +322,7 @@ print("Игрок 2")
 print("Ваше игровое поле: ")
 print_matrix_with_coords(player_two_matrix)
 
-player_two_matrix = create_ships(player_one_matrix)
+player_two_matrix = create_ships(player_two_matrix)
 
 print("\nИгровое поле вашего соперника: ")
 print_matrix_with_coords(player_two_enemy_matrix)
