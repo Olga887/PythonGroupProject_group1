@@ -14,11 +14,11 @@ def get_ship_coordinates(word):
 
 def make_move(matrix, move_column, move_row,  ship_coordinates):
     result = []
-    print("Матрица на входе: ")
-    print_matrix_with_coords(matrix)
-    print(f"Move_row:  {move_row}")
-    print(f"Move_col:  {move_column}")
-    print(f"Ship_coord:  {ship_coordinates}")
+    #print("Матрица на входе: ")
+    #print_matrix_with_coords(matrix)
+    #print(f"Move_row:  {move_row}")
+    #print(f"Move_col:  {move_column}")
+    #print(f"Ship_coord:  {ship_coordinates}")
     #hit = matrix[move_row][move_column]
     #print(hit)
     for i in range(len(matrix)):
@@ -45,7 +45,7 @@ def make_move(matrix, move_column, move_row,  ship_coordinates):
                     matrix[i][j] = 'O'
                     result.append(True)
     result.append(matrix)
-    print("Матрица из make_move после добавления удара:")
+    #print("Матрица из make_move после добавления удара:")
     print_matrix_with_coords(matrix)
     return result
 
@@ -99,7 +99,6 @@ def print_matrix_with_coords(matrix):
 
 
 def parse_coordinates(coord):
-
     row_letter = coord[0].upper()
     col_number = coord[1]
 
@@ -107,9 +106,7 @@ def parse_coordinates(coord):
     row_index = int(col_number)
 
     #print(col_index, row_index)
-
     return row_index, col_index
-
 
 
 def check_if_ship_killed(move_row, move_column, matrix, ship_coordinates):
@@ -134,6 +131,7 @@ def check_if_ship_killed(move_row, move_column, matrix, ship_coordinates):
     elif hit:
         print(True)
         return True
+
 
 # Обновление карты противника по координате
 def enemy_card(matrix_enemy, matrix, number_y, number_x):
@@ -177,6 +175,12 @@ def filling_ship_ver(matrix, number_y_first, number_y_second, number_x_first, co
             coord_one_cell = [number_y, number_x_first]
             coord.append(coord_one_cell)
     return matrix
+
+
+def print_current_points(player_one_points, player_two_points):
+    print("\nТекущий счет: ")
+    print(f"Игрок 1: {player_one_points}")
+    print(f"Игрок 2: {player_two_points}")
 
 
 def cells_ship(matrix, number_y_first, number_x_first, number_y_second, number_x_second):
@@ -281,32 +285,41 @@ player_one_enemy_matrix = create_matrix() # Поле соперника перв
 player_two_matrix = create_matrix()
 player_two_enemy_matrix = create_matrix() # Поле соперника второго игрока
 
+player_one_points = 0
+player_two_points = 0
 
-print("Игрок 1")
-print("Ваше игровое поле: ")
+print("Добро пожаловать в морской бой! "
+      "В игре участвуют 2 игрока. Каждому игроку доступна своя карта, на которой игрок располагает корабли, а также карта, на "
+      "\nкоторой он видит свои попадания или промахи по кораблям противника. "
+      "\nПопадание отмечается на карте соперника знаком Н, промах - знаком О. Если игрок попал по кораблю соперника, "
+      "\nза ним остается право следующего хода. Если игрок промахнулся,"
+      "\nправо хода переходит к сопернику. Игра продолжается до тех пор, пока все корабли одного из игроков не будут уничтожены."
+      "\n ВАЖНО: при размещение кораблей учитывайте, что между кораблями должна быть минимум 1 клетка. Корабль не будте добавлен, если правило не соблюдается. ")
+
+print("Игрок 1\n")
+print("Ваше игровое поле: \n")
 print_matrix_with_coords(player_one_matrix)
 
 player_one_matrix, player_one_ship_coordinates = create_ships(player_one_matrix)
 
-print("\nИгровое поле вашего соперника: ")
+print("\nИгровое поле вашего соперника: \n")
 print_matrix_with_coords(player_one_enemy_matrix)
 
-print("Игрок 2")
-print("Ваше игровое поле: ")
+print("Игрок 2\n")
+print("Ваше игровое поле: \n")
 print_matrix_with_coords(player_two_matrix)
 
 player_two_matrix, player_two_ship_coordinates = create_ships(player_two_matrix)
 
-print("\nИгровое поле вашего соперника: ")
+print("\nИгровое поле вашего соперника: \n")
 print_matrix_with_coords(player_two_enemy_matrix)
 
-
-# Функция с заполнением кораблей
 
 is_game_over = False
 while is_game_over == False:
     is_turn_player_one = False
-    while is_turn_player_one == False:
+    while is_turn_player_one == False and is_game_over == False:
+        print("\nИгрок 1\n")
         first_player_hit = get_hit_coordinates()
         hit_row, hit_column = parse_coordinates(first_player_hit)
         #ship_coord = [] # подставить из функции Юры
@@ -315,11 +328,12 @@ while is_game_over == False:
         player_two_matrix = move_result[1]
 
         if not is_turn_player_one == True:
-            print("Вы поразили соперника")
+            print("Вы поразили соперника\n")
+            player_one_points += 1
 
         player_one_enemy_matrix = enemy_card(player_one_enemy_matrix, player_two_matrix, hit_row, hit_column)
 
-        print("\nИгровое поле вашего соперника: ")
+        print("\nИгровое поле вашего соперника: \n")
         print_matrix_with_coords(player_one_enemy_matrix)
         counter = 0
         for row_matrix in range(len(player_two_matrix)):
@@ -328,27 +342,27 @@ while is_game_over == False:
                     counter += 1
         if counter == 0:
             is_game_over = True
-
-
+        print_current_points(player_one_points, player_two_points)
 
     is_turn_player_two = False
-    while is_turn_player_two == False:
+    while is_turn_player_two == False and is_game_over == False:
+        print("\nИгрок 2\n")
         second_player_hit = get_hit_coordinates()
 
         hit_row, hit_column = parse_coordinates(second_player_hit)
-
-        ship_coord = []  # подставить из функции Юры
+        #ship_coord = []  # подставить из функции Юры
 
         move_result = make_move(player_one_matrix, hit_row, hit_column, player_one_ship_coordinates)
         is_turn_player_two = move_result[0]
         player_one_matrix = move_result[1]
 
         if not is_turn_player_two == True:
-            print("Вы поразили соперника")
+            print("Вы поразили соперника\n")
+            player_two_points += 1
 
         player_two_enemy_matrix = enemy_card(player_two_enemy_matrix, player_one_matrix, hit_row, hit_column)
 
-        print("\nИгровое поле вашего соперника: ")
+        print("\nИгровое поле вашего соперника: \n")
         print_matrix_with_coords(player_two_enemy_matrix)
         counter = 0
         for row_matrix in range(len(player_one_matrix)):
@@ -357,6 +371,6 @@ while is_game_over == False:
                     counter += 1
         if counter == 0:
             is_game_over = True
-
+        print_current_points(player_one_points, player_two_points)
 
 print(f'Игра закончена, Вы победили!!!!')
