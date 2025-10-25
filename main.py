@@ -14,6 +14,11 @@ def get_ship_coordinates(word):
 
 def make_move(matrix, move_row, move_column, ship_coordinates):
     result = []
+    print("Матрица на входе: ")
+    print_matrix_with_coords(matrix)
+    print(f"Move_row:  {move_row}")
+    print(f"Move_col:  {move_column}")
+    print(f"Ship_coord:  {ship_coordinates}")
     #hit = matrix[move_row][move_column]
     #print(hit)
     for i in range(len(matrix)):
@@ -41,6 +46,7 @@ def make_move(matrix, move_row, move_column, ship_coordinates):
                     result.append(True)
     result.append(matrix)
     return result
+
 
 def create_ships(matrix):
     ships_count = {4: 1, 3: 2, 2: 3, 1: 4}
@@ -76,10 +82,9 @@ def create_ships(matrix):
     return matrix, ships_coord
 
 
-
-
 def create_matrix():
     return [['-' for _ in range(10)] for _ in range(10)]
+
 
 def print_matrix_with_coords(matrix):
     print("   " + " ".join(str(i) for i in range(10)))
@@ -165,6 +170,7 @@ def filling_ship_ver(matrix, number_y_first, number_y_second, number_x_first, co
             coord_one_cell = [number_y, number_x_first]
             coord.append(coord_one_cell)
     return matrix
+
 
 def cells_ship(matrix, number_y_first, number_x_first, number_y_second, number_x_second):
     is_correct_coord = True
@@ -275,7 +281,7 @@ print("Игрок 1")
 print("Ваше игровое поле: ")
 print_matrix_with_coords(player_one_matrix)
 
-player_one_matrix = create_ships(player_one_matrix)
+player_one_matrix, player_one_ship_coordinates = create_ships(player_one_matrix)
 
 print("\nИгровое поле вашего соперника: ")
 print_matrix_with_coords(player_one_enemy_matrix)
@@ -284,7 +290,7 @@ print("Игрок 2")
 print("Ваше игровое поле: ")
 print_matrix_with_coords(player_two_matrix)
 
-player_two_matrix = create_ships(player_two_matrix)
+player_two_matrix, player_two_ship_coordinates = create_ships(player_two_matrix)
 
 print("\nИгровое поле вашего соперника: ")
 print_matrix_with_coords(player_two_enemy_matrix)
@@ -297,12 +303,9 @@ while is_game_over == False:
     is_turn_player_one = False
     while is_turn_player_one == False:
         first_player_hit = get_hit_coordinates()
-
         hit_row, hit_column = parse_coordinates(first_player_hit)
-
-        ship_coord = [] # подставить из функции Юры
-
-        move_result = make_move(player_two_matrix, hit_row, hit_column, ship_coord)
+        #ship_coord = [] # подставить из функции Юры
+        move_result = make_move(player_two_matrix, hit_row, hit_column, player_two_ship_coordinates)
         is_turn_player_one = move_result[0]
         player_two_matrix = move_result[1]
 
@@ -331,7 +334,7 @@ while is_game_over == False:
 
         ship_coord = []  # подставить из функции Юры
 
-        move_result = make_move(player_one_matrix, hit_row, hit_column, ship_coord)
+        move_result = make_move(player_one_matrix, hit_row, hit_column, player_one_ship_coordinates)
         is_turn_player_two = move_result[0]
         player_one_matrix = move_result[1]
 
