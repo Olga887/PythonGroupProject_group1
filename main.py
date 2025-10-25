@@ -12,7 +12,7 @@ def get_ship_coordinates(word):
     return coordinates
 
 
-def make_move(matrix, move_row, move_column, ship_coordinates):
+def make_move(matrix, move_column, move_row,  ship_coordinates):
     result = []
     print("Матрица на входе: ")
     print_matrix_with_coords(matrix)
@@ -45,6 +45,8 @@ def make_move(matrix, move_row, move_column, ship_coordinates):
                     matrix[i][j] = 'O'
                     result.append(True)
     result.append(matrix)
+    print("Матрица из make_move после добавления удара:")
+    print_matrix_with_coords(matrix)
     return result
 
 
@@ -114,20 +116,23 @@ def check_if_ship_killed(move_row, move_column, matrix, ship_coordinates):
     intact = []
     hit = []
 
-    for row, col in ship_coordinates:
-        cell = matrix[row][col]
-        if cell == '1' or cell == 'H':
-            intact.append((row, col))
-        elif cell == 'X':
-            hit.append((row, col))
+    for ship in ship_coordinates:
+        for row, col in ship:
+            cell = matrix[row][col]
+            if cell == '1' or cell == 'H':
+                intact.append((row, col))
+            elif cell == 'X':
+                hit.append((row, col))
 
     if (move_row, move_column) in intact:
         intact.remove((move_row, move_column))
         hit.append((move_row, move_column))
 
     if intact:
+        print(False)
         return False
     else:
+        print(True)
         return True
 
 # Обновление карты противника по координате
@@ -270,8 +275,6 @@ def cells_ship(matrix, number_y_first, number_x_first, number_y_second, number_x
 
 player_one_matrix = create_matrix()
 player_one_enemy_matrix = create_matrix() # Поле соперника первого игрока
-
-
 
 player_two_matrix = create_matrix()
 player_two_enemy_matrix = create_matrix() # Поле соперника второго игрока
